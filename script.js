@@ -1,8 +1,7 @@
 const getComputerMove = () => {
     randomNum = Math.floor(Math.random() * 3);
-    move = (randomNum === 0) ? 'rock' : 
-        (randomNum === 1) ? 'paper' : 'scissors';
-    return move;
+    move = ['rock', 'paper', 'scissors'];
+    return move [randomNum];
 }
 
 const playRound = (playerSelection, computerSelection) => {
@@ -19,28 +18,49 @@ const playRound = (playerSelection, computerSelection) => {
     }
 }
 
-const isValidMove = (move) => {
-    if (move === 'rock' || move === 'paper' || move === 'scissors') {
-        return true;
+function getVictor(score) {
+    if (score['win'] === score['lose']) {
+        return 'It\'s a tie!';
+    } else if (score['win'] > score['lose']) {
+        return 'You win!';
+    } else {
+        return 'You lose!';
     }
-    return false
 }
 
-const getPlayerMove = () => {
-    let move = prompt('Choose: Rock, Paper, or Scissors').toLowerCase();
-
-    while (!isValidMove(move)) {
-        move = prompt('Invalid Move!\nChoose: Rock, Paper, or Scissors').toLowerCase();
-    }
-    return move;
+function setScore(result) {
+    score[result] += 1;
 }
 
-const game = () => {
-    for(let i = 0; i < 5; i++) {
-        playerSelection = getPlayerMove();
+function updatePage(result, score) {
+    const resultDom = document.querySelector('.result');
+    const scoreDom = document.querySelector('.score');
+    resultDom.textContent = `${result}`;
+    console.log(score)
+    scoreDom.textContent = `wins: ${score['win']}, ties: ${score['tie']}, loses: ${score['lose']}`
+    if (round >= 4) {
+        const victorDom = document.querySelector('.victor');
+        victorDom.textContent = getVictor(score);
+    }
+}
+
+function game(playerSelection) {
+    if (round < 5) {
+        playerSelection = playerSelection;
         computerSelection = getComputerMove();
-        console.log(playRound(playerSelection, computerSelection));
+        result = playRound(playerSelection, computerSelection)
+        setScore(result);
+        updatePage(result, score, round);
+        round++;
     }
 }
 
-game();
+const choices = document.querySelectorAll('.move');
+choices.forEach((move) => {
+    move.addEventListener('click', () => {
+        game(move.value);
+    })
+});
+
+let score = { 'win': 0, 'tie': 0, 'lose': 0 }
+let round = 0;

@@ -2,9 +2,20 @@
 <html>
     <head>
         <meta charset="UTF-8"/>
+        <link href="./index.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Results are in the console!</h1>
+        <h1>Choose your move</h1>
+        <button class="move" value="rock">rock</button>
+        <button class="move" value="paper">paper</button>
+        <button class="move" value="scissors">scissors</button>
+        <div class="gameResult">
+            <p1 class="result">You have not made a move yet!</p1>
+            <h1>SCORE</h1>
+            <p1 class="score">wins: 0, ties: 0, loses: 0</p1>
+            <h1 class="victor"></h1>
+        </div>
+
     </body>
     <script src="./script.js"></script>
 </html>
